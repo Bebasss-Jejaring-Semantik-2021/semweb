@@ -16,9 +16,11 @@ pyparsing==3.0.6
 rdflib==6.1.1
 requests==2.26.0
 six==1.16.0
+SPARQLWrapper==1.8.5
 SQLAlchemy==1.4.29
 sqlwrapper==0.1
 typing_extensions==4.0.1
+unicode==2.8
 urllib3==1.26.7
 Werkzeug==2.0.2
 zipp==3.6.0
