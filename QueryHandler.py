@@ -70,3 +70,35 @@ class SearchQueryHandler():
         searchq = self.searchq.format('"' + title + '"')
         result = list(self.graph.query(searchq))
         return result
+
+class GenreHandler():
+    def __init__(self):
+        self.searchq = """PREFIX tkp: <http://tkjentik.com/property/>
+            SELECT ?title ?movie WHERE {{
+            ?movie tkp:title ?title.
+            ?movie tkp:genre ?genre.
+            filter({0})
+            }}
+            group by ?movie ?title
+            having (count(?genre) = {1})
+            """
+        self.searchq2 = """PREFIX tkp: <http://tkjentik.com/property/>
+            SELECT DISTINCT ?title ?movie WHERE {{
+            ?movie tkp:title ?title.
+            }}
+            """
+        self.graph = rdflib.Graph()
+        self.graph.parse("disney.ttl", format="ttl")
+
+    def query(self, checked):
+        tempq = ""
+        if checked:
+            for i in checked:
+                tempq+="?genre='"+i+"' ||"
+            tempq = tempq[:-2]
+            searchq = self.searchq.format(tempq, len(checked))
+            result = list(self.graph.query(searchq))
+            print(searchq)
+        else:
+            result = list(self.graph.query(self.searchq2))
+        return result
