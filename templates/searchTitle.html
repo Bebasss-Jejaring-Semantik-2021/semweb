@@ -122,11 +122,11 @@
                     <a class="inline-block py-2 px-4 text-black no-underline" href="/">Home</a>
                 </li>
                 <li class="mr-3">
-                    <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
+                    <a class="inline-block text-black font-bold no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
                        href="/title">Find By Title</a>
                 </li>
                 <li class="mr-3">
-                    <a class="inline-block text-black font-bold no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
+                    <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
                        href="/genre">Find By Genre</a>
                 </li>
             </ul>
@@ -140,7 +140,7 @@
 
     <div class="container mx-auto flex flex-wrap pt-4 pb-12">
         <h1 class="w-full my-2 mt-10 text-5xl font-bold leading-tight text-center text-gray-800">
-            Cari Berdasarkan Genre
+            Cari Berdasarkan Judul
         </h1>
         <div class="w-full mb-4">
             <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
@@ -148,51 +148,40 @@
 
         <div class="w-full mb-4 text-black mx-auto">
 
-            <div class="w-full max-w-3xl mx-auto">
-                <form class="bg-white shadow-md rounded pl-16 pt-6 pb-6 mb-4" method="get" action="genre">
-                    <div class="grid grid-cols-3">
-                        {% for genre in genres %}
-                            <fieldset>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="{{ genre }}"
-                                           id="{{ genre }}Box"
-                                           name="genreCheckbox" {% if genre in checked %}checked{% endif %}>
-                                    <label class="form-check-label" for="{{ genre }}Box">{{ genre }}</label>
-                                </div>
-                            </fieldset>
-                        {% endfor %}
-                    </div>
-
-                    <div class="grid justify-items-center mt-5">
+            <div class="w-full max-w-xl mx-auto">
+                <form class="bg-white shadow-md rounded px-8 pt-6 pb-6 mb-4" method="get" action="title">
+                    <div class="mb-4 flex flex-row">
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                               id="searchedMovie" name="searchedMovie" type="text" placeholder="Search Movie Title">
                         <button class="gradient w-32 opacity-100 hover:opacity-75 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                 type="submit">
                             Submit
                         </button>
-
-                        <p class="text-gray-500 text-xs mt-2">
-                            &copy;2021 Jejaring Semantik. All rights reserved.
-                        </p>
                     </div>
+                    <p class="text-center text-gray-500 text-xs">
+                        &copy;2021 Jejaring Semantik. All rights reserved.
+                    </p>
                 </form>
             </div>
         </div>
 
         <table class="table-auto mx-auto w-3/6">
             <thead>
-            <th class="text-xl">
-                {% if checked %}Hasil Pencarian: {{ list_data|length }} data
-                {% else %} Daftar Isi
-                {% endif %}
-            </th>
+                <th class="text-xl">
+                    {% if searched %}Hasil Pencarian: {{ list_data|length }} data
+                        {% else %} Daftar Isi
+                    {% endif %}
+                </th>
             </thead>
             <tbody>
-            {% for i in list_data %}
+                {% for i in list_data %}
                 <tr>
                     <td class="border"><a class="mx-8 underline" href="/details/{{ i.title }}">{{ i.title }}</a></td>
                 </tr>
-            {% endfor %}
+                {% endfor %}
             </tbody>
         </table>
+
     </div>
 </section>
 

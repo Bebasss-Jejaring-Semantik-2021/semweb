@@ -8,11 +8,15 @@ search_handler = SearchQueryHandler()
 genre_handler = GenreHandler()
 
 @app.route('/', methods=(['GET']))
-def index():
+def home():
+	return render_template('home.html')
+
+@app.route('/title', methods=(['GET']))
+def title():
 	searched = request.args.get("searchedMovie","")
 	result = search_handler.query(searched)
 	result = [d.asdict() for d in result]
-	return render_template('index.html',list_data=result,searched=searched)
+	return render_template('searchTitle.html',list_data=result,searched=searched)
 
 @app.route('/genre', methods=(['GET']))
 def genre():
@@ -21,12 +25,11 @@ def genre():
 	checked = request.args.getlist("genreCheckbox")
 	result = genre_handler.query(checked)
 	result = [d.asdict() for d in result]
-	print(checked)
-	return render_template('searchGenre.html',list_data=result, genres = genres, checked=checked)
+	return render_template('searchGenre.html', list_data=result, genres = genres, checked=checked)
 
 
-@app.route('/movie/<string:title_uri>', methods=(['GET']))
-def movie(title_uri):
+@app.route('/details/<string:title_uri>', methods=(['GET']))
+def details(title_uri):
 	title = urllib.parse.unquote(title_uri)
 	local_result , dbpedia_result = movie_handler.query(title)
 	result = local_result[0].asdict()
@@ -41,7 +44,8 @@ def movie(title_uri):
 			if "/" in distributor_uri:
 				temp = distributor_uri.split("/")
 				distributor = temp[-1].replace("_"," ")
-	return render_template('movie.html',result = result,abstract = abstract, distributor = distributor, distributor_uri = distributor_uri)
+	return render_template('details.html',result = result,abstract = abstract, distributor = distributor, distributor_uri = distributor_uri)
+
 
 
 if __name__ == "__main__":

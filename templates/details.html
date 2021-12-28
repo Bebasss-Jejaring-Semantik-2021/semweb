@@ -126,7 +126,7 @@
                        href="/title">Find By Title</a>
                 </li>
                 <li class="mr-3">
-                    <a class="inline-block text-black font-bold no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
+                    <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
                        href="/genre">Find By Genre</a>
                 </li>
             </ul>
@@ -140,59 +140,50 @@
 
     <div class="container mx-auto flex flex-wrap pt-4 pb-12">
         <h1 class="w-full my-2 mt-10 text-5xl font-bold leading-tight text-center text-gray-800">
-            Cari Berdasarkan Genre
+            Detail Film
         </h1>
         <div class="w-full mb-4">
             <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
         </div>
 
-        <div class="w-full mb-4 text-black mx-auto">
-
-            <div class="w-full max-w-3xl mx-auto">
-                <form class="bg-white shadow-md rounded pl-16 pt-6 pb-6 mb-4" method="get" action="genre">
-                    <div class="grid grid-cols-3">
-                        {% for genre in genres %}
-                            <fieldset>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="{{ genre }}"
-                                           id="{{ genre }}Box"
-                                           name="genreCheckbox" {% if genre in checked %}checked{% endif %}>
-                                    <label class="form-check-label" for="{{ genre }}Box">{{ genre }}</label>
-                                </div>
-                            </fieldset>
-                        {% endfor %}
-                    </div>
-
-                    <div class="grid justify-items-center mt-5">
-                        <button class="gradient w-32 opacity-100 hover:opacity-75 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                type="submit">
-                            Submit
-                        </button>
-
-                        <p class="text-gray-500 text-xs mt-2">
-                            &copy;2021 Jejaring Semantik. All rights reserved.
-                        </p>
-                    </div>
-                </form>
+        <div class="w-7/12 mx-auto rounded overflow-hidden shadow-lg px-5 py-5">
+            <div class="px-6 py-4">
+                <div class="font-bold text-3xl mb-2">{{ result.title }}</div>
+                {% if abstract %}
+                    <p class="text-gray-700 text-base">{{ abstract }}</p>
+                {% else %}
+                    {% if result.desc %}
+                        <p class="text-gray-700 text-base">{{ result.desc }}</p>
+                    {% endif %}
+                {% endif %}
             </div>
+            <ul class="ml-6">
+                {% if result.type %}
+                    <p><b>Type:</b> {{ result.type }}</p>{% endif %}
+                {% if result.rating %}
+                    <p><b>Rating:</b> {{ result.rating }}</p>{% endif %}
+                {% if result.duration %}
+                    <p><b>Duration:</b> {{ result.duration }}</p>{% endif %}
+                {% if result.genres %}
+                    <p><b>Genre:</b> {{ result.genres }}</p>{% endif %}
+                {% if result.casts %}
+                    <p><b>Casts:</b> {{ result.casts }}</p>{% endif %}
+                {% if result.directors %}
+                    <p><b>Directors:</b> {{ result.directors }}</p>{% endif %}
+                {% if result.countries %}
+                    <p><b>Country:</b> {{ result.countries }}</p>{% endif %}
+                {% if result.date %}
+                    <p><b>Date added:</b> {{ result.date }}</p>{% endif %}
+                {% if result.year %}
+                    <p><b>Release year:</b> {{ result.year }}</p>{% endif %}
+                {% if distributor %}
+                    <p><b>Distributed by:</b><a class="underline"
+                            href="{{ distributor_uri }}"> {{ distributor }}</a></p>{% endif %}
+                {% if result.dbpedia %}
+                    <p class="text-center mt-5"><a class="underline" href="{{ result.dbpedia }}"><b>See More</b></a></p>{% endif %}
+            </ul>
         </div>
 
-        <table class="table-auto mx-auto w-3/6">
-            <thead>
-            <th class="text-xl">
-                {% if checked %}Hasil Pencarian: {{ list_data|length }} data
-                {% else %} Daftar Isi
-                {% endif %}
-            </th>
-            </thead>
-            <tbody>
-            {% for i in list_data %}
-                <tr>
-                    <td class="border"><a class="mx-8 underline" href="/details/{{ i.title }}">{{ i.title }}</a></td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
     </div>
 </section>
 
